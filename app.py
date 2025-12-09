@@ -31,7 +31,7 @@ def scan_ports(target):
 # Website security check
 def website_security(website):
     issues = []
-    # Checks if port 80 is open
+  # Checks if port 80 is open
     if check_port(website, 80):
         issues.append("HTTP (port 80) open - not secure")
     log(f"Website check on {website}: {issues or 'No issues'}")
@@ -39,7 +39,7 @@ def website_security(website):
 
 # Password check
 def password_check(pw):
-    score = sum([
+    score = sum([ # Keeps count of each thing in password
         len(pw)>=8,
         any(c.isdigit() for c in pw),
         any(c.isupper() for c in pw),
@@ -49,6 +49,11 @@ def password_check(pw):
     log(f"Password checked: {pw}, score: {score}/5")
     return score
 
+
+
+
+
+
 # Routes
 @app.route("/")
 def index():
@@ -57,8 +62,8 @@ def index():
 # Scanning port route
 @app.route("/ports", methods=["POST"])
 def ports():
-    target = request.form.get("target")
-    return jsonify({"open_ports": scan_ports(target)})
+    target = request.form.get("target") # Gets the target from  form
+    return jsonify({"open_ports": scan_ports(target)}) # Returns open ports as JSON
 
 # Website security route
 @app.route("/website", methods=["POST"])
@@ -80,6 +85,8 @@ def view_log():
             return jsonify({"log": f.read()})
     except:
         return jsonify({"log": "No logs yet."})
+
+
 
 
 if __name__ == "__main__":
